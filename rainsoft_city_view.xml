@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='rainsoft_city_form_view'>
+            <field name='name'>rainsoft.city.form.view</field>
+            <field name='model'>rainsoft.city</field>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name='name' />
+                <field name='state' />
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='rainsoft_city_tree_view'>
+            <field name='name'>rainsoft.city.tree.view</field>
+            <field name='model'>rainsoft.city</field>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <field name='name'/>
+                <field name='state'/>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='rainsoft_district_form_view'>
+            <field name='name'>rainsoft.district.form.view</field>
+            <field name='model'>rainsoft.district</field>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name='name'/>
+                <field name='city'/>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='rainsoft_distirct_tree_view'>
+            <field name='name'>rainsoft.district.tree.view</field>
+            <field name='model'>rainsoft.district</field>
+            <field name='type'>tree</field>
+            <field name='arch' type='xml'>
+                <field name='name'/>
+                <field name='city'/>
+            </field>
+        </record>
+    </data>
+</openerp>

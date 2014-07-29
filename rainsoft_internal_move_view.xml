@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<openerp>
+	<data>
+		<record model='ir.ui.view' id="rainsoft_internal_stock_move_form_view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='stock_journal_id']" position='after'>
+				  <field name='origin_stock' widget="selection"/>
+				</xpath>
+				<xpath expr="//field[@name='origin']" position='after'>	  
+				  <field name='dest_stock' widget="selection" on_change="qa_stock_to_move(origin_stock,dest_stock)"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

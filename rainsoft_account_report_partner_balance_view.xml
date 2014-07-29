@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="rainsoft_account_report_partner_balance" model="ir.ui.view">
+            <field name="name">rainsoft.account.report.partner.balance</field>
+	    <field name="model">account.partner.balance</field>
+	    <field name="inherit_id" ref="account.account_partner_balance_view"/>
+	    <field name="arch" type="xml">
+	      <field name="chart_account_id" position="after">
+		  <field name="partner_id" domain="[('is_company','=',True)]" options="{'create_edit':false,'create':false}"/>
+	      </field>
+	    </field>
+        </record>
+    </data>
+</openerp>
+

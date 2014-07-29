@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="rainsoft_rack_form_view">
+            <field name="name">rainsoft.rack.form.view</field>
+            <field name="type">form</field>
+            <field name="model">rainsoft.rack</field>
+            <field name="arch" type="xml">
+                <form string="Rack Name" >
+                    <field name="name" string="Name" required="True" />
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="rainsoft_rack_tree_view">
+            <field name="name">rainsoft.rack.tree.view</field>
+            <field name="type">tree</field>
+            <field name="model">rainsoft.rack</field>
+            <field name="arch" type="xml">
+                <tree string="Rack Name">
+                    <field name="name" string="Name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_rack" model="ir.actions.act_window">
+            <field name="name">Rack</field>
+            <field name="res_model">rainsoft.rack</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Rack" action="action_view_rack" id="rainsoft_rack" parent="stock.menu_stock_configuration"/>
+    </data>
+</openerp>

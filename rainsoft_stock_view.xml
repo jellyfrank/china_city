@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="rainsoft_stock_out_tree_view" model="ir.ui.view">
+            <field name="name">rainsoft.stock.out.tree.view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="product_name" />
+                </field>
+                <!--<field name="product_qty" position="after">
+                    <field name="price_unit"/>
+                    <field name="amount" string="Amount" sum="Total"/>
+                    <field name="partner_id"/>
+                </field>
+                <field name="product_uos" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="prodlot_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//button[@string='Scrap Products']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="scrapped" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="tracking_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//button[@string='Split in Serial Number']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='setlast_tracking']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@string='Put in a new pack']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>-->
+            </field>
+        </record>
+
+        <!--<record id="actions_rainsoft_stock_out_tree" model="ir.actions.act_window">
+            <field name="name">action.stock.out.tree.view</field>
+            <field name="res_model">stock.move</field>
+            <field name="view_mode">tree</field>
+            <field name="view_form">tree</field>
+            <field name="view_id" ref="rainsoft_stock_out_tree_view"/>
+        </record>
+
+        <menuitem id="rainsoft_stock_out_tree" parent="account.menu_finance_generic_reporting" name="stock out report"
+                  action="actions_rainsoft_stock_out_tree"/>-->
+    </data>
+</openerp>

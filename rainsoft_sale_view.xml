@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="rainsoft_order_form" model="ir.ui.view">
+			<field name="name">rainsoft.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<button name="action_cancel" position="after">
+				  <button name="send_sms" states="manual,progress" string="Send Text Message" type="object" groups="base.group_user"/>
+				</button>
+				<xpath expr="//field[@name='order_line']" position="before">
+				  <group>
+					<group>
+						<field name='data'/>
+					</group>					      
+					<group>				  
+						<button name='import_file' string='Import' type='object' class='oe_edit_only' />
+					</group>
+				  </group>
+				</xpath>
+				<field name="partner_id" position="attributes">
+				  <attribute name="options">{"always_reload": True,"limit": 10,"create": False,"create_edit": false}</attribute>
+				</field>
+				<xpath expr="//field[@name='amount_untaxed']/.." position='before'>
+				  <group>
+				      <field name='item_count'/>
+				  </group>
+				</xpath>
+				<field name='partner_shipping_id' position='after'>
+				    <field name='credit_limit'/>
+				    <field name='credit'/>
+				</field>
+			</field>
+		</record>
+		<record id="rainsoft_sale_order_filter" model="ir.ui.view">
+				<field name="name">rainsoft_sale_order_filter_view</field>
+				<field name="model">sale.order</field>
+				<field name="inherit_id" ref="sale.view_sales_order_filter"/>
+				<field name="arch" type="xml">
+						<xpath expr="//filter[@string='Done']" position="after">
+								<filter string="not internal" domain="[('is_internal','=',0)]"/>
+						</xpath>
+				</field>
+		</record>
+		<record id="id_for_the_action" model="ir.actions.server">
+			<field name="name">Send Text Message</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_sale_order" />
+			<field name="state">code</field>
+			<field name="code">self.send_sms(cr,uid,context.get('active_id'),context=context)</field>
+		</record>
+		
+		<record id="rainsoft_sale_order_line_form" model="ir.ui.view">
+			<field name="name">rainsoft.sale.order.line.form</field>
+			<field name="model">sale.order.line</field>
+			<field name="inherit_id" ref="sale.view_order_line_form2" />
+			<field name="arch" type="xml">
+			    <field name="product_id" position="attributes">
+				<attribute name="options">{'create':false,'create_edit':false}</attribute>
+			    </field>
+			</field>
+		</record>
+		
+		<record id ="id_for_the_action_value" model="ir.values">
+			<field name="name">Send Text Message</field>
+			<field name="action_id" ref="id_for_the_action"/>
+			<field name="value" eval="'ir.actions.server,'+str(ref('id_for_the_action'))" />
+			<field name="key">action</field>
+			<field name="model_id" ref="model_sale_order" />
+			<field name="model">sale.order</field>
+			<field name="key2">client_action_multi</field>
+		</record>
+		
+		<record id="rainsoft_view_order_line_tree" model="ir.ui.view">
+		    <field name="name">rainsoft.sale.order.line.tree</field>
+		    <field name="model">sale.order.line</field>
+		    <field name="inherit_id" ref="sale.view_order_line_tree"/>
+		    <field name="arch" type="xml">			    
+			    <field name="order_id" position="before">
+				<field name="date"/>
+			    </field>
+		    </field>
+		</record>
+		
+		<!--销售汇总明细-->
+
+                <!--
+		  搜索视图
+		  继承 sale.view_sales_order_line_filter
+		-->
+		<record id="rain_view_sales_order_line_filter" model="ir.ui.view">
+		    <field name="name">rain.sale.order.line.select</field>
+		    <field name="model">sale.order.line</field>
+		    <field name="arch" type="xml">
+			<search string="Search Sales Order">
+			    <filter icon="terp-dolar_ok!" string="To Invoice" domain="[('invoiced','&lt;&gt;', 1),('state','=','done')]"  help="Sales Order Lines ready to be invoiced"/>
+			    <separator/>
+			    <filter string="My Sales Order Lines" icon="terp-personnal" domain="[('salesman_id','=',uid)]" help="Sales Order Lines related to a Sales Order of mine"/>
+			    <field name="order_id"/>
+			    <field name="order_partner_id" operator="child_of"/>
+			    <field name="product_id"/>
+			    <field name="salesman_id"/>
+			    <group expand="0" string="Group By...">
+				<filter string="Product" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'product_id'}"/>
+				<filter string="Order" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'order_id'}"/>
+				<filter string="Salesperson" icon="terp-personal" domain="[]" context="{'group_by':'salesman_id'}"/>
+				<filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+				  <filter string="分类" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'categ_id'}"/>
+			    </group>
+			</search>
+		    </field>
+		</record>
+
+		<!--列表视图-->
+		<record id="rain_view_order_line_tree_inherit" model="ir.ui.view">
+		    <field name="name">sale.order.line.tree</field>
+		    <field name="model">sale.order.line</field>
+		    <field name="inherit_id" ref="sale.view_order_line_tree"></field>
+		    <field name="arch" type="xml">
+			<field name="product_id" position="replace">
+			</field>
+			<field name="name" position="replace">
+			    <field name="product_id"></field>
+			    <field name="categ_id" invisible="1"></field>
+			    <field name="categ_name"></field>
+			</field>
+		    </field>
+		</record>
+
+		<!--动作-->
+		<record id="action_rain_sale_order_line" model="ir.actions.act_window">
+		    <field name="name">销售明细汇总</field>
+		    <field name="res_model">sale.order.line</field>
+		    <field name="type">ir.actions.act_window</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+		    <field name="search_view_id" ref="rain_view_sales_order_line_filter"/>
+		    <field name="view_id" ref="rain_view_order_line_tree_inherit"/>
+		    <field name="context">{}</field>
+		</record>
+
+		  
+		<menuitem id="rainsoft_sale_line" name="sale line report" action="action_rain_sale_order_line" parent="base.menu_sales" />
+	</data>
+</openerp>

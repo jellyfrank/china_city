@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="rainsoft_partner_form_view">
+			<field name="name">rainsoft_partner.rainsoft_partner</field>
+			<field name="type">form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<field name="title" position="after">
+					<field name="QQ" placeholder="input your QQ number here."/>
+				   <!--<field name="product_categ_id"/>-->
+			    </field>
+				<xpath expr="/form/notebook/page[@string='Sales &amp; Purchases']/field[@name='supplier']" position="after">
+					<field name="product_categ_id"/>
+				</xpath>
+				<field name="date" position="replace">
+					<field name="date" string="合同开始日期"/>
+				</field>
+				<field name="date" position="after">
+					<field name="contract_end_date" string="合同结束日期" />
+				</field>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="rainsoft_partner_tree_view">
+			<field name="name">rainsoft_partner.rainsoft_partner</field>
+			<field name="type">tree</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="arch" type="xml">
+					<field name="name" position="before" >
+						<field name="ref" string="No"/>
+					</field>
+			</field>
+		</record>
+	</data>
+</openerp>

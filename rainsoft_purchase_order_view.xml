@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="rainsoft_purchase_order">
+            <field name="name">rainsoft.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">    
+                <button name="view_picking" position="after">
+                     <button name="send_sms" attrs="{'invisible':[('state','in',['draft','sent'])] }" class="oe_highlight" string="Send Text Message" type="object" />
+                </button>
+                <field name="origin" position="after">
+                    <field name="client"/>
+                </field>
+            </field>
+        </record>
+	<!--<record model="ir.ui.view" id="rainsoft_purchase_order_filter">
+	  <field name="name">rainsoft.purchase.order.filter</field>
+	  <field name="model">purchase.order</field>
+	  <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+	  <field name="arch" type="xml">
+	    <xpath expr="//filter[@string='Expected Date']" position="after">
+	       <filter string='product' context="{'group_by':'product_id'}" />
+	    </xpath>
+	  </field>
+	</record>-->
+    </data>
+</openerp>
+

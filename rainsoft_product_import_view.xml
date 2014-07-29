@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="rainsoft_product_form_view">
+			<field name="name">rainsoft.product.form.view</field>
+			<field name="model">rainsoft.product.import</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Product Import" version="7.0">
+					<group>
+						<field name="file"/>
+					</group>
+					<group>
+							<p>description:when you gonna import products from your excel file,you have to define the catetory first and ensure your product's unit is already exsiting in the system,or you may meet error.</p>
+					</group>
+					<group>
+						<button name="btn_import" type="object" class="oe_highlight" string="Import"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="action_rainsoft_product_import">
+			<field name="name">Product Import</field>
+			<field name="res_model">rainsoft.product.import</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="rainsoft_product_form_view"/>
+			<field name="context">{}</field>
+			<field name="target">new</field>
+		</record>
+		<menuitem name="Product Import" action="action_rainsoft_product_import" id="menu_rainsoft_product_import" parent="purchase.menu_procurement_management_product"/>
+	</data>
+</openerp>

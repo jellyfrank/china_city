@@ -1,0 +1,110 @@
+#encoding:utf-8
+
+from openerp.osv import osv,fields
+
+class rainsoft_account_stock(osv.osv):
+    _name='rainsoft.account.stock'
+
+    _columns={
+        'location':fields.many2one('stock.location','Location'),
+        'period_id':fields.many2one('account.period','Period'),
+    }
+
+    def action_query(self,cr,uid,ids,context=None):
+        if context is None:
+            context={}
+        #every time you query,loop the products 
+        #if product is not in current lines, insert it.
+        products = self.pool.get('product.product').search(cr,uid,[],context=context)
+        for product in products:
+	    if len(self.pool.get('rainsoft.account.stock.line').search(cr,uid,[('product_id','=',product)],context=context))==0:
+		self.pool.get('rainsoft.account.stock.line').create(cr,uid,{'product_id':product},context=context)
+        
+        return {
+            'name':u'库存报表',
+            'view_type':'form',
+            'view_mode':'tree,form',
+            'res_model':'rainsoft.account.stock.line',
+            'type':'ir.actions.act_window',
+            'context':{
+                'location': self.browse(cr,uid,ids[0]).location.id,
+                'date_start':self.browse(cr,uid,ids[0]).period_id.date_start,
+                'date_stop':self.browse(cr,uid,ids[0]).period_id.date_stop,                
+            },
+        }
+
+rainsoft_account_stock()
+
+class rainsoft_account_stock_line(osv.osv):
+    _name="rainsoft.account.stock.line"
+    
+    def _get_init_remainder(self,cr,uid,ids,name,args,context=None):
+	res={}
+	for id in ids:
+	    res[id]=0
+	return res
+      
+    def _get_locations(self,cr,uid,ids,name,args,location,context=None):
+	res = context['res']
+	locations = self.pool.get('stock.location').search(cr,uid,[('location_id','=',location)],context=context)
+	if len(locations)>0:
+	    for location in locations:
+	      self._get_locations(cr,uid,ids,name,args,location,context=context)
+	else:
+	    res.append(location)
+	    context['res']=res	
+    
+    def _get_current(self,cr,uid,ids,name,args,context=None):
+	res={}
+	if context == None:
+	    context={}
+	if context.has_key('location') and context.has_key('date_start') and context.has_key('date_stop'):
+	    location=context['location']
+	    context['res']=[]
+	    self._get_locations(cr,uid,ids,name,args,location,context=context)
+	    locs =  context['res']	    
+	    
+	    date_start = context['date_start']
+	    date_stop = context['date_stop']
+	    lines = self.browse(cr,uid,ids)
+	    for line in lines:
+		res[line.id]={
+		    'current_in_count':0.0,
+		    'current_in_money':0.0,
+		    'current_out_count':0.0,
+		    'current_out_money':0.0,
+		    'end_remainder':0.0,
+		    'end_money':0.0,
+		  }
+		stock_moves = self.pool.get('stock.move').search(cr,uid,[('location_id','not in',locs),('location_dest_id','in',locs),('product_id','=',line.product_id.id),('state','=','done'),('date','>=',date_start),('date','<',date_stop)],context=context)
+		if len(stock_moves)>0:
+		    for stock in stock_moves:
+			stock_line = self.pool.get('stock.move').browse(cr,uid,stock,context=context)
+			res[line.id]['current_in_count'] +=stock_line.product_qty
+			res[line.id]['current_in_money'] +=stock_line.price_unit*stock_line.product_qty
+			
+		stock_out_moves = self.pool.get('stock.move').search(cr,uid,[('location_id','in',locs),('location_dest_id','not in',locs),('product_id','=',line.product_id.id),('state','=','done'),('date','>=',date_start),('date','<',date_stop)],context=context)
+		
+		if len(stock_out_moves)>0:
+		    for stock in stock_out_moves:
+		        stock_out_line = self.pool.get('stock.move').browse(cr,uid,stock,context=context)
+		        res[line.id]['current_out_count'] +=stock_out_line.product_qty
+			#using the average price multiply amount get the values of  deliveried products
+		        res[line.id]['current_out_money'] +=res[line.id]['current_in_money']/res[line.id]["current_in_count"]*stock_out_line.product_qty
+		        res[line.id]['end_remainder'] = res[line.id]['current_in_count']-res[line.id]['current_out_count']
+		        res[line.id]['end_money'] = res[line.id]['current_in_money']-res[line.id]['current_out_money']
+    	return res
+    
+    _columns={
+        'product_id':fields.many2one('product.product',string='Product'),
+        'init_remainder':fields.function(_get_init_remainder,string='Init_Remainder'),
+        'current_in_count':fields.function(_get_current,multi='sums',string='Current_In_Count'),
+        'current_in_money':fields.function(_get_current,multi='sums',string='current_in_money'),
+        'current_out_count':fields.function(_get_current,multi='sums',string='current_out'),
+        'current_out_money':fields.function(_get_current,multi='sums',string='current_out_money'),
+        'end_remainder':fields.function(_get_current,multi='sums',string='end_remainder'),
+        'end_money':fields.function(_get_current,multi='sums',string='end_money'),
+
+    }
+
+rainsoft_account_stock_line()

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="workflow" id="rainsoft_saleout_wf">
+            <field name="name">saleout.wf</field>
+            <field name="osv">rainsoft.saleout</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <record model="workflow.activity" id="act_new">
+            <field name="wkf_id" ref="rainsoft_saleout_wf"/>
+            <field name="flow_start">True</field>
+            <field name="name">new</field>
+            <field name="kind">function</field>
+            <field name="action">saleout_new()</field>
+        </record>
+	
+	<record model="workflow.activity" id="act_invoice">
+            <field name="wkf_id" ref="rainsoft_saleout_wf"/>
+	    <field name="flow_stop">True</field>
+            <field name="name">invoice</field>
+            <field name="kind">function</field>
+            <field name="action">saleout_invoice()</field>
+        </record>
+
+        <!--<record model="workflow.activity" id="act_done">
+            <field name="wkf_id" ref="rainsoft_saleout_wf"/>
+            <field name="flow_stop">True</field>
+            <field name="name">done</field>
+            <field name="kind">function</field>
+            <field name="action">saleout_done()</field>
+            </record>-->
+
+        <record model="workflow.transition" id="t1">
+            <field name="act_from" ref="act_new"/>
+            <field name="act_to" ref="act_invoice"/>
+            <field name="signal">saleout_invoice</field>
+        </record>
+	
+	<!--<record model="workflow.transition" id="t2">
+            <field name="act_from" ref="act_invoice"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">saleout_done</field>
+            </record>-->
+
+    </data>
+</openerp>
+

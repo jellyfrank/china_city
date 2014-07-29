@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <report auto="False" id="rainsoft_report_saleout" model="rainsoft.saleout" name="rainsoft.saleout" rml="Rainsoft_Xiangjie/report/rainsoft_saleout.rml" string="Sale Deliver Order" usage="default"/>
+        
+         <!--<record id="rainsoft_report_saleout" model="ir.actions.report.xml">
+	          <field name="report_type">pdf</field>
+	          </record>-->
+    </data>
+</openerp>

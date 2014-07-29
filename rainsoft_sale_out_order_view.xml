@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="rainsoft_saleout_form_view" model="ir.ui.view">
+            <field name="name">rainsoft.saleout.form.view</field>
+            <field name="model">rainsoft.saleout</field>
+            <field name="arch" type="xml">
+                <form string="Sale and Delivery Order" version="7.0">
+		  <header>
+		    <button name="saleout_invoice" string="Create Invoice" states="new" confirm="确认创建发票吗，没有发货的产品将不能继续发货。"/>
+		    <!--<button name="action_view_invoice" type="object" string="View Invoice" states="invocie,done"/>
+		    <button name="saleout_done" string="finish" states="invocie" confirm="确认结束订单吗，没有发货的产品将不能继续发货"/>-->
+		    <field name="state" widget="statusbar" statusbar_visible="new,invocie,done" statusbar_colors='{"new":"red","done":"blue"}'/>
+		  </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" class="oe_line" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="partner_id" />
+				<!--<field name="amount_amount"/>
+				<field name="amount_send_amount"/>-->
+                            </group>
+                            <group>
+                                <field name="sale_order_id"/>
+				<!--<field name="amount_order_money"/>
+				<field name="amount_send_money"/>-->
+                            </group>
+                        </group>
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="sale_order_line" />
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="rainsoft_saleout_tree_view">
+            <field name="name">rainsoft.saleout.tree</field>
+            <field name="model">rainsoft.saleout</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Sale and Delivery Order">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+		    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="rainsoft_saleout_action" model="ir.actions.act_window">
+            <field name="name">Sale and Delivery Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rainsoft.saleout</field>
+            <field name="view_type">form</field>
+            <field name="view_model">tree,form</field>
+	    <field name="limit">500</field>
+        </record>
+
+        <menuitem id="rainsoft_menu_saleout" action="rainsoft_saleout_action" name="Sale and Delivery Order" parent="stock.menu_stock_warehouse_mgmt" sequence="4"/>
+
+        <record id="rainsoft_saleout_orderline_form" model="ir.ui.view">
+            <field name="name">Sale and Delivery Order Line</field>
+            <field name="model">rainsoft.saleout.line</field>
+            <field name="arch" type="xml">
+                <form string="Order Line" >
+                    <field name="product_id"/>
+                    <field name="mrp_product_id"/>
+                    <field name="unit"/>
+                    <field name="price"/>
+                    <field name="amount"/>
+                    <field name="send_amount"/>
+                    <field name="send_order_id"/>
+                    <field name="order_money"/>
+                    <field name="send_money"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="rainsoft_saleout_orderline_tree" model="ir.ui.view">
+            <field name="name">Sale and Delivery Order Line</field>
+            <field name="model">rainsoft.saleout.line</field>
+            <field name="arch" type="xml">
+                <tree string="Order Line">
+                    <field name="product_id"/>
+                    <field name="mrp_product_id"/>
+                    <field name="unit"/>
+                    <field name="price"/>
+		    <field name="amount" sum="amount"/>
+		    <field name="send_amount" sum="send_amount"/>
+                    <field name="send_order_id"/>
+                    <field name="order_money" sum="order_money"/>
+		    <field name="send_money" sum="send_money"/>
+		    <field name="location" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
