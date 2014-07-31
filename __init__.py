@@ -1,2 +1,2 @@
 #-*- coding:utf-8 -*-
-import rainsoft_partner
+import hm_city,hm_partner,hm_users,hm_region

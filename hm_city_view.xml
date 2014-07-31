@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+		<data>
+				<record model="ir.ui.view" id="hm_city_form_view">
+						<field name="name">hm.city.form.view</field>
+						<field name="model">hm.city</field>
+						<field name="type">form</field>
+						<field name="arch" type="xml">
+								<form string="city">
+										<group>
+												<field name="name"/>
+												<field name="state"/>
+										</group>
+								</form>
+						</field>
+				</record>
+				<record model="ir.ui.view" id="hm_city_tree_view">
+						<field name="name">hm.city.tree.view</field>
+						<field name="model">hm.city</field>
+						<field name="type">tree</field>
+						<field name="arch" type="xml">
+								<tree string="city">
+										<field name="name"/>
+								</tree>
+						</field>
+				</record>
+				<record model="ir.ui.view" id="hm_district_form_view">
+						<field name="name">hm.district.form.view</field>
+						<field name="model">hm.district</field>
+						<field name="type">form</field>
+						<field name="arch" type="xml">
+								<form string="district">
+										<group>
+												<field name="name"/>
+												<field name="city"/>
+										</group>
+								</form>
+						</field>
+				</record>
+		</data>
+</openerp>

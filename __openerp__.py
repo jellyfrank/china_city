@@ -19,24 +19,18 @@
 #
 ##############################################################################
 {
-		"name":u"青岛惠美食品有限公司专用模块",
+		"name":u"china city",
 		"version":"1.0",
 		"description":u"""
-青岛惠美食品有限公司专用模块
+China City
 ================================================================
-该模块为青岛惠美食品有限公司专用模块，由雨水软件根据香界商贸有限公司特定的业务需求量身定做。
-改模块包括的业务功能主要有：
-
-
-更多详情及参见使用说明或联系雨水软件事业部。
-------------------------
-版权 雨水软件 2014
-作者：Kevin Kong
+China City model is created for customers who are loacated in China main land.
+This model changes the format of partner's address,makes it looks much better from chinese's view.
 		  """,
-		"author":"rainsoft",
+		"author":"Kevin Kong",
 		"website":"http://www.qdrainsoft.com",
-		"depends":["base","product","purchase","sale","stock","crm"],
-                "udpate_xml":["rainsoft_partner_view.xml"]
+		"depends":["base"],
+                "data":["hm_city_view.xml","hm_region_view.xml","hm_partner_view.xml"],
 		"installable":True,
 		"category":"Generic Modules/Others"
 }

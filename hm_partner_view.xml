@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+		<data>
+				<record model="ir.ui.view" id="hm_partner_form_view">
+						<field name="name">hm.partner.form.view</field>
+						<field name="model">res.partner</field>
+						<field name="inherit_id" ref="base.view_partner_form"/>
+						<field name="arch" type="xml">
+								<field name="city" position="before">
+										<field name="district"/>
+								</field>
+						</field>
+				</record>
+		</data>
+</openerp>
