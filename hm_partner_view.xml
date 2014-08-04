@@ -7,7 +7,13 @@
 						<field name="inherit_id" ref="base.view_partner_form"/>
 						<field name="arch" type="xml">
 								<field name="city" position="before">
-										<field name="district"/>
+										<field name="district" domain="[('city','=',city)]"/>
+								</field>
+								<field name="city" position="attributes">
+										<attribute name="domain">[('state','=',state_id)]</attribute>
+								</field>
+								<field name="state_id" position="attributes">
+										<attribute name="domain">[('country_id','=',country_id)]</attribute>
 								</field>
 						</field>
 				</record>

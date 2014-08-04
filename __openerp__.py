@@ -1,7 +1,6 @@
 #-*- coding:utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Designed For QingDao Xiangjie Company
 #    Powered By Rainsoft(QingDao) Author:Kevin Kong 2014 (kfx2007@163.com)
 #
 #    This program is free software: you can redistribute it and/or modify
